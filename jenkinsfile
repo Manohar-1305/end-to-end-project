@@ -4,27 +4,26 @@ pipeline {
         jdk "jdk17"
         maven "maven3"
     }
-  stages {
-    stage ('cleanup workspace'){
-      steps{
-        cleanWs()
-      }
-    }
-    stage ("Checkout from SCM"){
-      steps{
-        git branch: 'main', url: 'https://github.com/Manohar-1305/end-to-end-project.git'
-      }
-    }
-        stage("Build Application"){
+    stages {
+        stage('Cleanup Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Checkout from SCM') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Manohar-1305/end-to-end-project.git'
+            }
+        }
+        stage('Build Application') {
             steps {
                 sh "mvn clean package"
             }
-
         }
-        stage("Build Application"){
+        stage('Run Tests') {
             steps {
                 sh "mvn test"
             }
-      }
-  }
+        }
+    }
 }
