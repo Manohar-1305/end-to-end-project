@@ -5,40 +5,40 @@ pipeline {
         maven "maven3"
     }
     stages {
-        stage('Cleanup Workspace') {
+        stage ('cleanup workspace') {
             steps {
                 cleanWs()
             }
         }
-        stage('Checkout from SCM') {
+        stage ("Checkout from SCM") {
             steps {
                 git branch: 'main', url: 'https://github.com/Manohar-1305/end-to-end-project.git'
             }
         }
-        stage('Build Application') {
+        stage("Build Application") {
             steps {
                 sh "mvn clean package"
             }
         }
-        stage('Run Tests') {
+        stage("Run Tests") { // Renamed to avoid duplicate stage name error
             steps {
                 sh "mvn test"
             }
         }
-        stage('Sonarqube Analysis') {
+        stage("Sonarqube Analysis") {
             steps {
                 script {
-                    withSonarQubeEnv(credentialsId: 'sonar') {
+                    withSonarQubeEnv('sonar') { // Replace 'sonar' with your actual SonarQube server name
                         sh "mvn sonar:sonar"
                     }
                 }
             }
         }
-        stage('Quality Gate') {
+        stage("Quality Gate") {
+            steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar', timeout: '30'
+                    waitForQualityGate abortPipeline: false
                 }
-
             }
         }
     }
