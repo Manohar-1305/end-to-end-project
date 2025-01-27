@@ -1,12 +1,9 @@
-
 pipeline {
-  agents {
-        any
-  }
-  tools {
-    jdk 'java17'
-    maven 'maven3'
-  }
+    agent any
+    tools {
+        jdk "jdk17"
+        maven "maven3"
+    }
   stages {
     stage ('cleanup workspace'){
       steps{
