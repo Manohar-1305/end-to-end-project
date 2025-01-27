@@ -36,9 +36,10 @@ pipeline {
         }
         stage('Quality Gate') {
             steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar', timeout: '30'
-                }
+		     withSonarQubeEnv(installationName: 'sonar-9', credentialsId: 'sonar') {
+		     sh 'mvn sonar:sonar'
+	    	}
+
             }
         }
     }
