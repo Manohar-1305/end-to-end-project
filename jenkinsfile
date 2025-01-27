@@ -28,7 +28,7 @@ pipeline {
         stage("Sonarqube Analysis") {
             steps {
                 script {
-                    withSonarQubeEnv('sonar') { // Replace 'sonar' with your actual SonarQube server name
+                    withSonarQubeEnv('sonar-jenkins') { // Replace 'sonar' with your actual SonarQube server name
                         sh "mvn sonar:sonar"
                     }
                 }
@@ -37,7 +37,7 @@ pipeline {
         stage('Quality Gate') {
             steps {
                 script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar', timeout: '30'
+                    waitForQualityGate abortPipeline: false, credentialsId: 'sonar-jenkins', timeout: '30'
                 }
         }
     }
