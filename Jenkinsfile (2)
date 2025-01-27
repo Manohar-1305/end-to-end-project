@@ -1,0 +1,21 @@
+pipeline {
+  agents {
+        any
+  }
+  tools {
+    jdk 'java17'
+    maven 'maven3'
+  }
+  stages {
+    stage ('cleanup workspace'){
+      steps{
+        cleanWs()
+      }
+    }
+    stage ("Checkout from SCM"){
+      steps{
+        git branch: 'main', url: 'https://github.com/Manohar-1305/end-to-end-project.git'
+      }
+    }
+  }
+}
